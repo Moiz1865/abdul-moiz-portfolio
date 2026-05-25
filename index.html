@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Abdul Moiz — Full Stack Developer Portfolio" />
+  <title>Abdul Moiz | Full Stack Developer</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- AOS Animation Library -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== LOADING SCREEN ===== -->
+  <div id="loader" class="loader">
+    <div class="loader-content">
+      <div class="loader-logo">AM</div>
+      <div class="loader-bar"><div class="loader-fill"></div></div>
+      <p class="loader-text">Loading Portfolio...</p>
+    </div>
+  </div>
+
+  <!-- ===== SCROLL PROGRESS BAR ===== -->
+  <div id="scroll-progress" class="scroll-progress"></div>
+
+  <!-- ===== CURSOR ===== -->
+  <div id="cursor" class="cursor"></div>
+  <div id="cursor-follower" class="cursor-follower"></div>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav id="navbar" class="navbar">
+    <div class="nav-container">
+      <a href="#home" class="nav-logo">
+        <span class="logo-text">AM</span>
+        <span class="logo-dot">.</span>
+      </a>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#home" class="nav-link active">Home</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#skills" class="nav-link">Skills</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
+        <li><a href="#experience" class="nav-link">Experience</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+        <li><a href="#resume" class="nav-link btn-nav">Resume</a></li>
+      </ul>
+
+      <!-- Dark / Light mode toggle -->
+      <button id="theme-toggle" class="theme-toggle" aria-label="Switch to light mode">
+        <i class="fas fa-sun" id="theme-icon"></i>
+      </button>
+
+      <button class="hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===== MOBILE MENU OVERLAY ===== -->
+  <div class="mobile-overlay" id="mobile-overlay"></div>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main>
+
+    <!-- ===== SECTION 1: HERO ===== -->
+    <section id="home" class="hero-section">
+      <div class="hero-particles" id="particles"></div>
+      <div class="hero-bg-gradient"></div>
+
+      <div class="hero">
+        <div class="hero-content">
+          <p class="hero-greeting" data-aos="fade-down" data-aos-delay="200">Hello, World! 👋</p>
+          <h1 class="hero-title" data-aos="fade-up" data-aos-delay="300">
+            I'm <span class="gradient-text">Abdul Moiz</span>
+          </h1>
+          <div class="hero-role" data-aos="fade-up" data-aos-delay="400">
+            <span class="role-prefix">A </span>
+            <span class="typed-text" id="typed-text"></span>
+            <span class="typed-cursor">|</span>
+          </div>
+          <p class="hero-desc" data-aos="fade-up" data-aos-delay="500">
+            I craft beautiful, high-performance web experiences that blend elegant design with clean, scalable code. Turning ideas into digital reality.
+          </p>
+          <div class="hero-cta" data-aos="fade-up" data-aos-delay="600">
+            <a href="#projects" class="btn btn-primary">
+              <i class="fas fa-eye"></i> View My Work
+            </a>
+            <a href="#contact" class="btn btn-outline">
+              <i class="fas fa-envelope"></i> Contact Me
+            </a>
+          </div>
+
+          <div class="hero-stats" data-aos="fade-up" data-aos-delay="700">
+            <div class="stat">
+              <span class="stat-number" data-target="50">0</span><span>+</span>
+              <span class="stat-label">Projects</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat">
+              <span class="stat-number" data-target="5">0</span><span>+</span>
+              <span class="stat-label">Years Exp.</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat">
+              <span class="stat-number" data-target="30">0</span><span>+</span>
+              <span class="stat-label">Clients</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-image" data-aos="fade-left" data-aos-delay="400">
+          <div class="hero-img-wrapper">
+            <div class="hero-img-bg"></div>
+            <img src="assets/images/profile-placeholder.svg" alt="Abdul Moiz" class="hero-photo" />
+            <div class="hero-img-ring ring-1"></div>
+            <div class="hero-img-ring ring-2"></div>
+            <div class="hero-badge">
+              <i class="fas fa-code"></i>
+              <span>Full Stack</span>
+            </div>
+          </div>
+        </div>
+      </div><!-- /.hero -->
+
+      <div class="hero-scroll-hint">
+        <span>Scroll Down</span>
+        <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+      </div>
+    </section>
+
+    <!-- ===== SECTION 2: ABOUT ===== -->
+    <section id="about" class="about section">
+      <div class="container">
+        <div class="section-header" data-aos="fade-up">
+          <p class="section-tag">Get To Know</p>
+          <h2 class="section-title">About <span class="gradient-text">Me</span></h2>
+          <div class="section-line"></div>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-image-col" data-aos="fade-right" data-aos-delay="200">
+            <div class="about-img-wrapper">
+              <img src="assets/images/about-placeholder.svg" alt="About Abdul Moiz" class="about-photo" />
+              <div class="about-img-decor decor-1"></div>
+              <div class="about-img-decor decor-2"></div>
+              <div class="experience-badge">
+                <span class="exp-years">5</span>
+                <span class="exp-text">Years of<br/>Experience</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="about-content" data-aos="fade-left" data-aos-delay="300">
+            <h3 class="about-subtitle">Full Stack Developer based in <span class="gradient-text">Peshawar, Pakistan</span></h3>
+            <p class="about-bio">
+              I'm a passionate Full Stack Developer with over 5 years of experience building modern, responsive web applications. I specialize in creating seamless user experiences with clean, efficient code.
+            </p>
+            <p class="about-bio">
+              From pixel-perfect frontend designs to robust backend architectures, I bring ideas to life with a focus on performance, scalability, and maintainability. I love turning complex problems into simple, beautiful solutions.
+            </p>
+
+            <div class="about-facts">
+              <div class="fact-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Peshawar, Pakistan</span>
+              </div>
+              <div class="fact-item">
+                <i class="fas fa-graduation-cap"></i>
+                <span>B.Sc. Computer Science</span>
+              </div>
+              <div class="fact-item">
+                <i class="fas fa-briefcase"></i>
+                <span>Available for Freelance</span>
+              </div>
+              <div class="fact-item">
+                <i class="fas fa-language"></i>
+                <span>English, Spanish</span>
+              </div>
+            </div>
+
+            <div class="about-skills-preview">
+              <div class="skill-bar-item">
+                <div class="skill-bar-header">
+                  <span>Frontend Development</span>
+                  <span>92%</span>
+                </div>
+                <div class="skill-bar-track">
+                  <div class="skill-bar-fill" data-width="92"></div>
+                </div>
+              </div>
+              <div class="skill-bar-item">
+                <div class="skill-bar-header">
+                  <span>Backend Development</span>
+                  <span>85%</span>
+                </div>
+                <div class="skill-bar-track">
+                  <div class="skill-bar-fill" data-width="85"></div>
+                </div>
+              </div>
+              <div class="skill-bar-item">
+                <div class="skill-bar-header">
+                  <span>Database Management</span>
+                  <span>80%</span>
+                </div>
+                <div class="skill-bar-track">
+                  <div class="skill-bar-fill" data-width="80"></div>
+                </div>
+              </div>
+              <div class="skill-bar-item">
+                <div class="skill-bar-header">
+                  <span>DevOps & Cloud</span>
+                  <span>70%</span>
+                </div>
+                <div class="skill-bar-track">
+                  <div class="skill-bar-fill" data-width="70"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="about-cta">
+              <a href="#contact" class="btn btn-primary">
+                <i class="fas fa-paper-plane"></i> Hire Me
+              </a>
+              <a href="#resume" class="btn btn-outline">
+                <i class="fas fa-download"></i> Download CV
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SECTION 3: SKILLS ===== -->
+    <section id="skills" class="skills section section-alt">
+      <div class="container">
+        <div class="section-header" data-aos="fade-up">
+          <p class="section-tag">What I Know</p>
+          <h2 class="section-title">My <span class="gradient-text">Skills</span></h2>
+          <div class="section-line"></div>
+        </div>
+
+        <div class="skills-grid">
+
+          <div class="skill-card" data-aos="fade-up" data-aos-delay="100">
+            <div class="skill-icon-wrap">
+              <i class="fab fa-html5 skill-icon" style="color:#E44D26"></i>
+            </div>
+            <h4 class="skill-name">HTML5</h4>
+            <p class="skill-level">Expert</p>
+            <div class="skill-ring">
+              <svg viewBox="0 0 100 100">
+                <circle class="ring-bg" cx="50" cy="50" r="40"/>
+                <circle class="ring-fill" cx="50" cy="50" r="40" data-percent="95"/>
+              </svg>
+              <span class="ring-percent">95%</span>
+            </div>
+          </div>
+
+          <div class="skill-card" data-aos="fade-up" data-aos-delay="150">
+            <div class="skill-icon-wrap">
+              <i class="fab fa-css3-alt skill-icon" style="color:#1572B6"></i>
+            </div>
+            <h4 class="skill-name">CSS3</h4>
+            <p class="skill-level">Expert</p>
+            <div class="skill-ring">
+              <svg viewBox="0 0 100 100">
+                <circle class="ring-bg" cx="50" cy="50" r="40"/>
+                <circle class="ring-fill" cx="50" cy="50" r="40" data-percent="92"/>
+              </svg>
+              <span class="ring-percent">92%</span>
+            </div>
+          </div>
+
+          <div class="skill-card" data-aos="fade-up" data-aos-delay="200">
+            <div class="skill-icon-wrap">
+              <i class="fab fa-js-square skill-icon" style="color:#F7DF1E"></i>
+            </div>
+            <h4 class="skill-name">JavaScript</h4>
+            <p class="skill-level">Expert</p>
+            <div class="skill-ring">
+              <svg viewBox="0 0 100 100">
+                <circle class="ring-bg" cx="50" cy="50" r="40"/>
+                <circle class="ring-fill" cx="50" cy="50" r="40" data-percent="90"/>
+              </svg>
+              <span class="ring-percent">90%</span>
+            </div>
+          </div>
+
+          <div class="skill-card" data-aos="fade-up" data-aos-delay="250">
+            <div class="skill-icon-wrap">
+              <i class="fab fa-react skill-icon" style="color:#61DAFB"></i>
+            </div>
+            <h4 class="skill-name">React</h4>
+            <p class="skill-level">Advanced</p>
+            <div class="skill-ring">
+              <svg viewBox="0 0 100 100">
+                <circle class="ring-bg" cx="50" cy="50" r="40"/>
+                <circle class="ring-fill" cx="50" cy="50" r="40" data-percent="88"/>
+              </svg>
+              <span class="ring-percent">88%</span>
+            </div>
+          </div>
+
+          <div class="skill-card" data-aos="fade-up" data-aos-delay="300">
+            <div class="skill-icon-wrap">
+              <i class="fab fa-node-js skill-icon" style="color:#68A063"></i>
+            </div>
+            <h4 class="skill-name">Node.js</h4>
+            <p class="skill-level">Advanced</p>
+            <div class="skill-ring">
+              <svg viewBox="0 0 100 100">
+                <circle class="ring-bg" cx="50" cy="50" r="40"/>
+                <circle class="ring-fill" cx="50" cy="50" r="40" data-percent="85"/>
+              </svg>
+              <span class="ring-percent">85%</span>
+            </div>
+          </div>
+
+          <div class="skill-card" data-aos="fade-up" data-aos-delay="350">
+            <div class="skill-icon-wrap">
+              <i class="fab fa-python skill-icon" style="color:#3776AB"></i>
+            </div>
+            <h4 class="skill-name">Python</h4>
+            <p class="skill-level">Advanced</p>
+            <div class="skill-ring">
+              <svg viewBox="0 0 100 100">
+                <circle class="ring-bg" cx="50" cy="50" r="40"/>
+                <circle class="ring-fill" cx="50" cy="50" r="40" data-percent="82"/>
+              </svg>
+              <span class="ring-percent">82%</span>
+            </div>
+          </div>
+
+          <div class="skill-card" data-aos="fade-up" data-aos-delay="400">
+            <div class="skill-icon-wrap">
+              <i class="fas fa-leaf skill-icon" style="color:#47A248"></i>
+            </div>
+            <h4 class="skill-name">MongoDB</h4>
+            <p class="skill-level">Advanced</p>
+            <div class="skill-ring">
+              <svg viewBox="0 0 100 100">
+                <circle class="ring-bg" cx="50" cy="50" r="40"/>
+                <circle class="ring-fill" cx="50" cy="50" r="40" data-percent="80"/>
+              </svg>
+              <span class="ring-percent">80%</span>
+            </div>
+          </div>
+
+          <div class="skill-card" data-aos="fade-up" data-aos-delay="450">
+            <div class="skill-icon-wrap">
+              <i class="fas fa-database skill-icon" style="color:#336791"></i>
+            </div>
+            <h4 class="skill-name">PostgreSQL</h4>
+            <p class="skill-level">Intermediate</p>
+            <div class="skill-ring">
+              <svg viewBox="0 0 100 100">
+                <circle class="ring-bg" cx="50" cy="50" r="40"/>
+                <circle class="ring-fill" cx="50" cy="50" r="40" data-percent="78"/>
+              </svg>
+              <span class="ring-percent">78%</span>
+            </div>
+          </div>
+
+          <div class="skill-card" data-aos="fade-up" data-aos-delay="500">
+            <div class="skill-icon-wrap">
+              <i class="fab fa-git-alt skill-icon" style="color:#F05032"></i>
+            </div>
+            <h4 class="skill-name">Git</h4>
+            <p class="skill-level">Expert</p>
+            <div class="skill-ring">
+              <svg viewBox="0 0 100 100">
+                <circle class="ring-bg" cx="50" cy="50" r="40"/>
+                <circle class="ring-fill" cx="50" cy="50" r="40" data-percent="93"/>
+              </svg>
+              <span class="ring-percent">93%</span>
+            </div>
+          </div>
+
+          <div class="skill-card" data-aos="fade-up" data-aos-delay="550">
+            <div class="skill-icon-wrap">
+              <i class="fab fa-docker skill-icon" style="color:#2496ED"></i>
+            </div>
+            <h4 class="skill-name">Docker</h4>
+            <p class="skill-level">Intermediate</p>
+            <div class="skill-ring">
+              <svg viewBox="0 0 100 100">
+                <circle class="ring-bg" cx="50" cy="50" r="40"/>
+                <circle class="ring-fill" cx="50" cy="50" r="40" data-percent="72"/>
+              </svg>
+              <span class="ring-percent">72%</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SECTION 4: PROJECTS ===== -->
+    <section id="projects" class="projects section">
+      <div class="container">
+        <div class="section-header" data-aos="fade-up">
+          <p class="section-tag">My Work</p>
+          <h2 class="section-title">Featured <span class="gradient-text">Projects</span></h2>
+          <div class="section-line"></div>
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="project-filters" data-aos="fade-up" data-aos-delay="100">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="frontend">Frontend</button>
+          <button class="filter-btn" data-filter="backend">Backend</button>
+          <button class="filter-btn" data-filter="fullstack">Full Stack</button>
+        </div>
+
+        <!-- Projects Grid -->
+        <div class="projects-grid" id="projects-grid">
+
+          <div class="project-card" data-category="fullstack" data-aos="fade-up" data-aos-delay="100">
+            <div class="project-img">
+              <img src="assets/images/project-1.svg" alt="E-Commerce Platform" />
+              <div class="project-overlay">
+                <a href="#" class="project-link" aria-label="View on GitHub"><i class="fab fa-github"></i></a>
+                <a href="#" class="project-link" aria-label="Live Demo"><i class="fas fa-external-link-alt"></i></a>
+              </div>
+            </div>
+            <div class="project-info">
+              <div class="project-category-badge">Full Stack</div>
+              <h3 class="project-title">E-Commerce Platform</h3>
+              <p class="project-desc">A full-featured online store with cart, checkout, payment integration, and admin dashboard.</p>
+              <div class="project-tech">
+                <span class="tech-badge">React</span>
+                <span class="tech-badge">Node.js</span>
+                <span class="tech-badge">MongoDB</span>
+                <span class="tech-badge">Stripe</span>
+              </div>
+              <div class="project-links">
+                <a href="#" class="btn btn-sm btn-outline"><i class="fab fa-github"></i> Code</a>
+                <a href="#" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i> Demo</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card" data-category="frontend" data-aos="fade-up" data-aos-delay="150">
+            <div class="project-img">
+              <img src="assets/images/project-2.svg" alt="Dashboard UI" />
+              <div class="project-overlay">
+                <a href="#" class="project-link" aria-label="View on GitHub"><i class="fab fa-github"></i></a>
+                <a href="#" class="project-link" aria-label="Live Demo"><i class="fas fa-external-link-alt"></i></a>
+              </div>
+            </div>
+            <div class="project-info">
+              <div class="project-category-badge">Frontend</div>
+              <h3 class="project-title">Analytics Dashboard</h3>
+              <p class="project-desc">A beautiful, interactive analytics dashboard with real-time charts, data tables, and dark mode.</p>
+              <div class="project-tech">
+                <span class="tech-badge">React</span>
+                <span class="tech-badge">Chart.js</span>
+                <span class="tech-badge">CSS3</span>
+              </div>
+              <div class="project-links">
+                <a href="#" class="btn btn-sm btn-outline"><i class="fab fa-github"></i> Code</a>
+                <a href="#" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i> Demo</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card" data-category="backend" data-aos="fade-up" data-aos-delay="200">
+            <div class="project-img">
+              <img src="assets/images/project-3.svg" alt="REST API" />
+              <div class="project-overlay">
+                <a href="#" class="project-link" aria-label="View on GitHub"><i class="fab fa-github"></i></a>
+                <a href="#" class="project-link" aria-label="Live Demo"><i class="fas fa-external-link-alt"></i></a>
+              </div>
+            </div>
+            <div class="project-info">
+              <div class="project-category-badge">Backend</div>
+              <h3 class="project-title">RESTful API Service</h3>
+              <p class="project-desc">Scalable REST API with JWT authentication, rate limiting, caching, and comprehensive documentation.</p>
+              <div class="project-tech">
+                <span class="tech-badge">Node.js</span>
+                <span class="tech-badge">Express</span>
+                <span class="tech-badge">PostgreSQL</span>
+                <span class="tech-badge">Redis</span>
+              </div>
+              <div class="project-links">
+                <a href="#" class="btn btn-sm btn-outline"><i class="fab fa-github"></i> Code</a>
+                <a href="#" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i> Demo</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card" data-category="fullstack" data-aos="fade-up" data-aos-delay="250">
+            <div class="project-img">
+              <img src="assets/images/project-4.svg" alt="Social App" />
+              <div class="project-overlay">
+                <a href="#" class="project-link" aria-label="View on GitHub"><i class="fab fa-github"></i></a>
+                <a href="#" class="project-link" aria-label="Live Demo"><i class="fas fa-external-link-alt"></i></a>
+              </div>
+            </div>
+            <div class="project-info">
+              <div class="project-category-badge">Full Stack</div>
+              <h3 class="project-title">Social Media App</h3>
+              <p class="project-desc">A real-time social platform with posts, likes, comments, messaging, and push notifications.</p>
+              <div class="project-tech">
+                <span class="tech-badge">React</span>
+                <span class="tech-badge">Socket.io</span>
+                <span class="tech-badge">MongoDB</span>
+                <span class="tech-badge">Docker</span>
+              </div>
+              <div class="project-links">
+                <a href="#" class="btn btn-sm btn-outline"><i class="fab fa-github"></i> Code</a>
+                <a href="#" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i> Demo</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card" data-category="frontend" data-aos="fade-up" data-aos-delay="300">
+            <div class="project-img">
+              <img src="assets/images/project-5.svg" alt="Weather App" />
+              <div class="project-overlay">
+                <a href="#" class="project-link" aria-label="View on GitHub"><i class="fab fa-github"></i></a>
+                <a href="#" class="project-link" aria-label="Live Demo"><i class="fas fa-external-link-alt"></i></a>
+              </div>
+            </div>
+            <div class="project-info">
+              <div class="project-category-badge">Frontend</div>
+              <h3 class="project-title">Weather Dashboard</h3>
+              <p class="project-desc">A sleek weather app with 7-day forecasts, geolocation, animated weather icons, and city search.</p>
+              <div class="project-tech">
+                <span class="tech-badge">JavaScript</span>
+                <span class="tech-badge">OpenWeather API</span>
+                <span class="tech-badge">CSS3</span>
+              </div>
+              <div class="project-links">
+                <a href="#" class="btn btn-sm btn-outline"><i class="fab fa-github"></i> Code</a>
+                <a href="#" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i> Demo</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card" data-category="backend" data-aos="fade-up" data-aos-delay="350">
+            <div class="project-img">
+              <img src="assets/images/project-6.svg" alt="Task Manager API" />
+              <div class="project-overlay">
+                <a href="#" class="project-link" aria-label="View on GitHub"><i class="fab fa-github"></i></a>
+                <a href="#" class="project-link" aria-label="Live Demo"><i class="fas fa-external-link-alt"></i></a>
+              </div>
+            </div>
+            <div class="project-info">
+              <div class="project-category-badge">Backend</div>
+              <h3 class="project-title">Task Manager API</h3>
+              <p class="project-desc">A Python-powered task management backend with teams, projects, roles, and webhook integrations.</p>
+              <div class="project-tech">
+                <span class="tech-badge">Python</span>
+                <span class="tech-badge">FastAPI</span>
+                <span class="tech-badge">PostgreSQL</span>
+              </div>
+              <div class="project-links">
+                <a href="#" class="btn btn-sm btn-outline"><i class="fab fa-github"></i> Code</a>
+                <a href="#" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i> Demo</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="projects-more" data-aos="fade-up">
+          <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
+            <i class="fab fa-github"></i> See All Projects on GitHub
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SECTION 5: EXPERIENCE TIMELINE ===== -->
+    <section id="experience" class="experience section section-alt">
+      <div class="container">
+        <div class="section-header" data-aos="fade-up">
+          <p class="section-tag">My Journey</p>
+          <h2 class="section-title">Experience & <span class="gradient-text">Education</span></h2>
+          <div class="section-line"></div>
+        </div>
+
+        <div class="timeline-tabs" data-aos="fade-up" data-aos-delay="100">
+          <button class="timeline-tab active" data-tab="work">
+            <i class="fas fa-briefcase"></i> Work
+          </button>
+          <button class="timeline-tab" data-tab="education">
+            <i class="fas fa-graduation-cap"></i> Education
+          </button>
+        </div>
+
+        <!-- Work Timeline -->
+        <div class="timeline" id="timeline-work">
+          <div class="timeline-item" data-aos="fade-right" data-aos-delay="100">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content glass-card">
+              <div class="timeline-header">
+                <div>
+                  <h3 class="timeline-role">Senior Full Stack Developer</h3>
+                  <p class="timeline-company"><i class="fas fa-building"></i> TechCorp Inc.</p>
+                </div>
+                <div class="timeline-date">
+                  <i class="fas fa-calendar-alt"></i> 2022 – Present
+                </div>
+              </div>
+              <p class="timeline-desc">Led development of microservices architecture serving 500K+ users. Reduced API response time by 40%. Mentored junior developers and established code review processes.</p>
+              <div class="timeline-tags">
+                <span class="tech-badge">React</span>
+                <span class="tech-badge">Node.js</span>
+                <span class="tech-badge">AWS</span>
+                <span class="tech-badge">Docker</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item" data-aos="fade-left" data-aos-delay="200">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content glass-card">
+              <div class="timeline-header">
+                <div>
+                  <h3 class="timeline-role">Full Stack Developer</h3>
+                  <p class="timeline-company"><i class="fas fa-building"></i> StartupXYZ</p>
+                </div>
+                <div class="timeline-date">
+                  <i class="fas fa-calendar-alt"></i> 2020 – 2022
+                </div>
+              </div>
+              <p class="timeline-desc">Built the core product from scratch using React and Node.js. Implemented CI/CD pipelines that reduced deployment time by 60%. Collaborated with design team to deliver pixel-perfect UIs.</p>
+              <div class="timeline-tags">
+                <span class="tech-badge">React</span>
+                <span class="tech-badge">MongoDB</span>
+                <span class="tech-badge">GraphQL</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item" data-aos="fade-right" data-aos-delay="300">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content glass-card">
+              <div class="timeline-header">
+                <div>
+                  <h3 class="timeline-role">Junior Web Developer</h3>
+                  <p class="timeline-company"><i class="fas fa-building"></i> Digital Agency Co.</p>
+                </div>
+                <div class="timeline-date">
+                  <i class="fas fa-calendar-alt"></i> 2019 – 2020
+                </div>
+              </div>
+              <p class="timeline-desc">Developed client websites and web applications. Gained hands-on experience with responsive design, JavaScript frameworks, and backend development with PHP and MySQL.</p>
+              <div class="timeline-tags">
+                <span class="tech-badge">JavaScript</span>
+                <span class="tech-badge">PHP</span>
+                <span class="tech-badge">MySQL</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Education Timeline -->
+        <div class="timeline hidden" id="timeline-education">
+          <div class="timeline-item" data-aos="fade-right" data-aos-delay="100">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content glass-card">
+              <div class="timeline-header">
+                <div>
+                  <h3 class="timeline-role">B.Sc. Computer Science</h3>
+                  <p class="timeline-company"><i class="fas fa-university"></i> State University of New York</p>
+                </div>
+                <div class="timeline-date">
+                  <i class="fas fa-calendar-alt"></i> 2015 – 2019
+                </div>
+              </div>
+              <p class="timeline-desc">Graduated Magna Cum Laude with a GPA of 3.8/4.0. Specialized in software engineering and web technologies. Led the university coding club and won two hackathons.</p>
+              <div class="timeline-tags">
+                <span class="tech-badge">Algorithms</span>
+                <span class="tech-badge">Data Structures</span>
+                <span class="tech-badge">Web Dev</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item" data-aos="fade-left" data-aos-delay="200">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content glass-card">
+              <div class="timeline-header">
+                <div>
+                  <h3 class="timeline-role">AWS Solutions Architect</h3>
+                  <p class="timeline-company"><i class="fas fa-certificate"></i> Amazon Web Services</p>
+                </div>
+                <div class="timeline-date">
+                  <i class="fas fa-calendar-alt"></i> 2021
+                </div>
+              </div>
+              <p class="timeline-desc">Earned the AWS Certified Solutions Architect – Associate certification. Gained expertise in designing distributed systems, cloud security, and cost-optimized architectures.</p>
+              <div class="timeline-tags">
+                <span class="tech-badge">AWS</span>
+                <span class="tech-badge">Cloud Architecture</span>
+                <span class="tech-badge">Security</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item" data-aos="fade-right" data-aos-delay="300">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content glass-card">
+              <div class="timeline-header">
+                <div>
+                  <h3 class="timeline-role">Meta React Developer</h3>
+                  <p class="timeline-company"><i class="fas fa-certificate"></i> Meta (Coursera)</p>
+                </div>
+                <div class="timeline-date">
+                  <i class="fas fa-calendar-alt"></i> 2020
+                </div>
+              </div>
+              <p class="timeline-desc">Completed the Meta Front-End Developer Professional Certificate covering React, advanced JavaScript, UX design, and version control.</p>
+              <div class="timeline-tags">
+                <span class="tech-badge">React</span>
+                <span class="tech-badge">UX Design</span>
+                <span class="tech-badge">JavaScript</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== SECTION 6: CONTACT ===== -->
+    <section id="contact" class="contact section">
+      <div class="container">
+        <div class="section-header" data-aos="fade-up">
+          <p class="section-tag">Get In Touch</p>
+          <h2 class="section-title">Contact <span class="gradient-text">Me</span></h2>
+          <div class="section-line"></div>
+        </div>
+
+        <div class="contact-grid">
+          <div class="contact-info" data-aos="fade-right" data-aos-delay="100">
+            <h3>Let's work together!</h3>
+            <p>Have a project in mind? I'd love to hear about it. Send me a message and I'll get back to you as soon as possible.</p>
+
+            <div class="contact-details">
+              <div class="contact-detail-item">
+                <div class="contact-icon-wrap">
+                  <i class="fas fa-envelope"></i>
+                </div>
+                <div>
+                  <p class="contact-detail-label">Email</p>
+                  <a href="mailto:sameendur4444@gmail.com" class="contact-detail-value">sameendur4444@gmail.com</a>
+                </div>
+              </div>
+              <div class="contact-detail-item">
+                <div class="contact-icon-wrap">
+                  <i class="fas fa-phone"></i>
+                </div>
+                <div>
+                  <p class="contact-detail-label">Phone</p>
+                  <a href="tel:+923175156575" class="contact-detail-value">+92 317 515 6575</a>
+                </div>
+              </div>
+              <div class="contact-detail-item">
+                <div class="contact-icon-wrap">
+                  <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div>
+                  <p class="contact-detail-label">Location</p>
+                  <span class="contact-detail-value">Peshawar, Pakistan</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="social-links">
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub">
+                <i class="fab fa-github"></i>
+              </a>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Twitter">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
+                <i class="fab fa-instagram"></i>
+              </a>
+            </div>
+          </div>
+
+          <div class="contact-form-wrap" data-aos="fade-left" data-aos-delay="200">
+            <form id="contact-form" class="contact-form" novalidate>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="name">Full Name</label>
+                  <div class="input-wrap">
+                    <i class="fas fa-user input-icon"></i>
+                    <input type="text" id="name" name="name" placeholder="John Doe" required />
+                  </div>
+                  <span class="form-error" id="name-error"></span>
+                </div>
+                <div class="form-group">
+                  <label for="email">Email Address</label>
+                  <div class="input-wrap">
+                    <i class="fas fa-envelope input-icon"></i>
+                    <input type="email" id="email" name="email" placeholder="john@example.com" required />
+                  </div>
+                  <span class="form-error" id="email-error"></span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="subject">Subject</label>
+                <div class="input-wrap">
+                  <i class="fas fa-tag input-icon"></i>
+                  <input type="text" id="subject" name="subject" placeholder="Project Inquiry" required />
+                </div>
+                <span class="form-error" id="subject-error"></span>
+              </div>
+              <div class="form-group">
+                <label for="message">Message</label>
+                <div class="input-wrap textarea-wrap">
+                  <i class="fas fa-comment input-icon textarea-icon"></i>
+                  <textarea id="message" name="message" rows="5" placeholder="Tell me about your project..." required></textarea>
+                </div>
+                <span class="form-error" id="message-error"></span>
+              </div>
+              <button type="submit" class="btn btn-primary btn-submit" id="submit-btn">
+                <span class="btn-text"><i class="fas fa-paper-plane"></i> Send Message</span>
+                <span class="btn-loading hidden"><i class="fas fa-spinner fa-spin"></i> Sending...</span>
+              </button>
+            </form>
+
+            <div class="form-success hidden" id="form-success">
+              <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+              <h4>Message Sent!</h4>
+              <p>Thank you for reaching out. I'll get back to you within 24 hours.</p>
+              <button class="btn btn-outline" id="reset-form-btn">Send Another</button>
+            </div>
+
+            <div class="form-error-state hidden" id="form-error-state">
+              <div class="error-icon"><i class="fas fa-exclamation-circle"></i></div>
+              <h4>Something went wrong</h4>
+              <p>Please try again or email me directly at sameendur4444@gmail.com</p>
+              <button class="btn btn-outline" id="retry-form-btn">Try Again</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SECTION 7: RESUME ===== -->
+    <section id="resume" class="resume section section-alt">
+      <div class="container">
+        <div class="section-header" data-aos="fade-up">
+          <p class="section-tag">My CV</p>
+          <h2 class="section-title">My <span class="gradient-text">Resume</span></h2>
+          <div class="section-line"></div>
+        </div>
+
+        <div class="resume-download" data-aos="fade-up" data-aos-delay="100">
+          <a href="assets/resume.pdf" download class="btn btn-primary btn-large">
+            <i class="fas fa-download"></i> Download Full CV (PDF)
+          </a>
+        </div>
+
+        <div class="resume-preview" data-aos="fade-up" data-aos-delay="200">
+          <div class="resume-card glass-card">
+
+            <div class="resume-header">
+              <div class="resume-avatar">AM</div>
+              <div>
+                <h2 class="resume-name">Abdul Moiz</h2>
+                <p class="resume-title-text">Full Stack Developer</p>
+                <div class="resume-contacts">
+                  <span><i class="fas fa-envelope"></i> sameendur4444@gmail.com</span>
+                  <span><i class="fas fa-phone"></i> +92 317 515 6575</span>
+                  <span><i class="fas fa-map-marker-alt"></i> Peshawar, Pakistan</span>
+                  <span><i class="fab fa-github"></i> github.com/abdulmoiz</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="resume-section">
+              <h3 class="resume-section-title"><i class="fas fa-user-tie"></i> Summary</h3>
+              <p>Passionate Full Stack Developer with 5+ years of experience building scalable web applications. Expertise in React, Node.js, Python, and cloud technologies. Proven track record of delivering high-quality products on time.</p>
+            </div>
+
+            <div class="resume-columns">
+              <div class="resume-col">
+                <div class="resume-section">
+                  <h3 class="resume-section-title"><i class="fas fa-briefcase"></i> Experience</h3>
+
+                  <div class="resume-entry">
+                    <div class="resume-entry-header">
+                      <h4>Senior Full Stack Developer</h4>
+                      <span class="resume-entry-date">2022 – Present</span>
+                    </div>
+                    <p class="resume-entry-company">TechCorp Inc., New York</p>
+                    <ul class="resume-entry-list">
+                      <li>Led team of 6 developers on core product</li>
+                      <li>Reduced API latency by 40% through optimization</li>
+                      <li>Architected microservices for 500K+ users</li>
+                    </ul>
+                  </div>
+
+                  <div class="resume-entry">
+                    <div class="resume-entry-header">
+                      <h4>Full Stack Developer</h4>
+                      <span class="resume-entry-date">2020 – 2022</span>
+                    </div>
+                    <p class="resume-entry-company">StartupXYZ, Remote</p>
+                    <ul class="resume-entry-list">
+                      <li>Built product from ground up using React/Node</li>
+                      <li>Implemented CI/CD reducing deploy time 60%</li>
+                      <li>Delivered pixel-perfect UIs from Figma designs</li>
+                    </ul>
+                  </div>
+
+                  <div class="resume-entry">
+                    <div class="resume-entry-header">
+                      <h4>Junior Web Developer</h4>
+                      <span class="resume-entry-date">2019 – 2020</span>
+                    </div>
+                    <p class="resume-entry-company">Digital Agency Co.</p>
+                    <ul class="resume-entry-list">
+                      <li>Developed 20+ client websites</li>
+                      <li>Improved page load speeds by 35%</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="resume-col">
+                <div class="resume-section">
+                  <h3 class="resume-section-title"><i class="fas fa-graduation-cap"></i> Education</h3>
+                  <div class="resume-entry">
+                    <div class="resume-entry-header">
+                      <h4>B.Sc. Computer Science</h4>
+                      <span class="resume-entry-date">2015 – 2019</span>
+                    </div>
+                    <p class="resume-entry-company">State University of New York</p>
+                    <p class="resume-entry-note">Magna Cum Laude • GPA 3.8/4.0</p>
+                  </div>
+                </div>
+
+                <div class="resume-section">
+                  <h3 class="resume-section-title"><i class="fas fa-code"></i> Skills</h3>
+                  <div class="resume-skills-grid">
+                    <span class="resume-skill-tag">React</span>
+                    <span class="resume-skill-tag">Node.js</span>
+                    <span class="resume-skill-tag">Python</span>
+                    <span class="resume-skill-tag">JavaScript</span>
+                    <span class="resume-skill-tag">TypeScript</span>
+                    <span class="resume-skill-tag">MongoDB</span>
+                    <span class="resume-skill-tag">PostgreSQL</span>
+                    <span class="resume-skill-tag">Docker</span>
+                    <span class="resume-skill-tag">AWS</span>
+                    <span class="resume-skill-tag">Git</span>
+                    <span class="resume-skill-tag">GraphQL</span>
+                    <span class="resume-skill-tag">Redis</span>
+                  </div>
+                </div>
+
+                <div class="resume-section">
+                  <h3 class="resume-section-title"><i class="fas fa-certificate"></i> Certifications</h3>
+                  <div class="resume-entry">
+                    <h4>AWS Solutions Architect</h4>
+                    <p class="resume-entry-company">Amazon Web Services • 2021</p>
+                  </div>
+                  <div class="resume-entry">
+                    <h4>Meta React Developer</h4>
+                    <p class="resume-entry-company">Meta / Coursera • 2020</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <a href="#home" class="nav-logo">
+            <span class="logo-text">AM</span><span class="logo-dot">.</span>
+          </a>
+          <p>Building digital experiences that matter.</p>
+        </div>
+        <div class="footer-links">
+          <a href="#home">Home</a>
+          <a href="#about">About</a>
+          <a href="#skills">Skills</a>
+          <a href="#projects">Projects</a>
+          <a href="#experience">Experience</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <div class="footer-social">
+          <a href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 Abdul Moiz. Crafted with <i class="fas fa-heart" style="color:#C49A6C"></i> and lots of coffee.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== BACK TO TOP ===== -->
+  <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <!-- AOS Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
