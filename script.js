@@ -57,21 +57,23 @@
       </svg>`)}`;
   }
 
-  /* Profile photos — auto-uses assets/images/profile.jpg when present */
-  const PROFILE_IMG = 'assets/images/profile.jpg';
+  /* Hero photo — assets/images/profile.jpg */
+  const HERO_IMG  = 'assets/images/profile.jpg';
+  /* About photo — assets/images/about.jpg  */
+  const ABOUT_IMG = 'assets/images/about.jpg';
 
   document.querySelectorAll('.hero-photo').forEach(img => {
     const test = new Image();
-    test.onload  = () => { img.src = PROFILE_IMG; };
+    test.onload  = () => { img.src = HERO_IMG; };
     test.onerror = () => { img.src = makeProfileSVG('AM'); };
-    test.src = PROFILE_IMG + '?t=' + Date.now();
+    test.src = HERO_IMG + '?t=' + Date.now();
   });
 
   document.querySelectorAll('.about-photo').forEach(img => {
     const test = new Image();
-    test.onload  = () => { img.src = PROFILE_IMG; };
+    test.onload  = () => { img.src = ABOUT_IMG; };
     test.onerror = () => { img.src = makeProfileSVG('AM', 420, 520); };
-    test.src = PROFILE_IMG + '?t=' + Date.now();
+    test.src = ABOUT_IMG + '?t=' + Date.now();
   });
 
   /* Project images */
