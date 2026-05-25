@@ -1200,3 +1200,294 @@
   init();
   draw();
 })();
+
+/* ===== HERO CANVAS — BEST EVER BACKGROUND ANIMATION ===== */
+(function initHeroCanvas() {
+  const canvas = document.getElementById('hero-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const heroSection = document.getElementById('home');
+  if (!heroSection) return;
+
+  let W, H, t = 0;
+  let mouse = { x: -9999, y: -9999 };
+
+  function resize() {
+    W = canvas.width  = heroSection.offsetWidth  || window.innerWidth;
+    H = canvas.height = heroSection.offsetHeight || window.innerHeight;
+  }
+
+  /* === 1. PARTICLE CONSTELLATION === */
+  const PCNT = 90;
+  const PDIST = 140;
+  const particles = [];
+
+  class Particle {
+    constructor() { this.reset(); }
+    reset() {
+      this.x  = Math.random() * W;
+      this.y  = Math.random() * H;
+      this.r  = 1 + Math.random() * 2;
+      this.vx = (Math.random() - 0.5) * 0.5;
+      this.vy = (Math.random() - 0.5) * 0.5;
+      this.baseA = 0.3 + Math.random() * 0.5;
+      this.pulse = Math.random() * Math.PI * 2;
+    }
+    update() {
+      this.pulse += 0.03;
+      const dx = this.x - mouse.x;
+      const dy = this.y - mouse.y;
+      const d  = Math.sqrt(dx * dx + dy * dy);
+      if (d < 130 && d > 0) {
+        const f = (130 - d) / 130;
+        this.vx += (dx / d) * f * 0.7;
+        this.vy += (dy / d) * f * 0.7;
+      }
+      this.vx *= 0.97;
+      this.vy *= 0.97;
+      this.x += this.vx;
+      this.y += this.vy;
+      if (this.x < -5)  this.x = W + 5;
+      if (this.x > W+5) this.x = -5;
+      if (this.y < -5)  this.y = H + 5;
+      if (this.y > H+5) this.y = -5;
+    }
+    draw() {
+      const alpha = this.baseA * (0.7 + 0.3 * Math.sin(this.pulse));
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(196,154,108,' + alpha + ')';
+      ctx.fill();
+    }
+  }
+
+  function initParticles() {
+    particles.length = 0;
+    for (let i = 0; i < PCNT; i++) particles.push(new Particle());
+  }
+
+  function drawConnections() {
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const d  = Math.sqrt(dx * dx + dy * dy);
+        if (d < PDIST) {
+          const alpha = (1 - d / PDIST) * 0.18;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = 'rgba(196,154,108,' + alpha + ')';
+          ctx.lineWidth = 0.7;
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  /* === 2. 3D PERSPECTIVE GRID === */
+  function drawGrid() {
+    const VPX = W / 2;
+    const VPY = H * 0.38;
+    const ROWS = 14, COLS = 16;
+    const FLOOR_Y = H * 1.05;
+    const SPREAD  = W * 1.6;
+    const speed   = (t * 0.008) % 1;
+
+    ctx.save();
+    ctx.globalAlpha = 0.07;
+    ctx.strokeStyle = '#C49A6C';
+    ctx.lineWidth = 0.8;
+
+    for (let r = 0; r < ROWS; r++) {
+      const prog = ((r / ROWS) + speed) % 1;
+      const y = VPY + (FLOOR_Y - VPY) * (prog * prog);
+      const spread = prog * SPREAD;
+      ctx.beginPath();
+      ctx.moveTo(VPX - spread / 2, y);
+      ctx.lineTo(VPX + spread / 2, y);
+      ctx.stroke();
+    }
+
+    for (let c = 0; c <= COLS; c++) {
+      const x = (c / COLS) * SPREAD - SPREAD / 2 + VPX;
+      ctx.beginPath();
+      ctx.moveTo(VPX, VPY);
+      ctx.lineTo(VPX + (x - VPX) * 1.5, FLOOR_Y);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  /* === 3. EXPANDING RING PULSES === */
+  const rings = [];
+  let lastRing = 0;
+
+  function spawnRing() {
+    rings.push({ x: W / 2, y: H / 2, r: 0, maxR: Math.sqrt(W*W + H*H) * 0.6, a: 0.55 });
+  }
+
+  function drawRings() {
+    const now = performance.now();
+    if (now - lastRing > 2800) { spawnRing(); lastRing = now; }
+
+    for (let i = rings.length - 1; i >= 0; i--) {
+      const ring = rings[i];
+      ring.r += 2.2;
+      ring.a -= 0.0012;
+      if (ring.a <= 0) { rings.splice(i, 1); continue; }
+
+      const frac = ring.r / ring.maxR;
+      const strokeA = ring.a * (1 - frac);
+
+      ctx.beginPath();
+      ctx.arc(ring.x, ring.y, ring.r, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(196,154,108,' + strokeA + ')';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      if (ring.r > 20) {
+        ctx.beginPath();
+        ctx.arc(ring.x, ring.y, ring.r - 8, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(140,80,30,' + (strokeA * 0.4) + ')';
+        ctx.lineWidth = 0.6;
+        ctx.stroke();
+      }
+    }
+  }
+
+  /* === 4. CURSOR GLOW === */
+  function drawCursorGlow() {
+    if (mouse.x < 0) return;
+    const grd = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 100);
+    grd.addColorStop(0,   'rgba(196,154,108,0.13)');
+    grd.addColorStop(0.5, 'rgba(196,154,108,0.04)');
+    grd.addColorStop(1,   'rgba(196,154,108,0)');
+    ctx.fillStyle = grd;
+    ctx.beginPath();
+    ctx.arc(mouse.x, mouse.y, 100, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  /* === 5. SHOOTING STARS === */
+  const stars = [];
+
+  function spawnStar() {
+    if (Math.random() > 0.008) return;
+    stars.push({
+      x:   Math.random() * W,
+      y:   Math.random() * H * 0.5,
+      len: 60 + Math.random() * 100,
+      spd: 4 + Math.random() * 5,
+      a:   0.8,
+      ang: Math.PI * 0.55
+    });
+  }
+
+  function drawStars() {
+    spawnStar();
+    for (let i = stars.length - 1; i >= 0; i--) {
+      const s = stars[i];
+      s.x += Math.cos(s.ang) * s.spd;
+      s.y += Math.sin(s.ang) * s.spd;
+      s.a -= 0.012;
+      if (s.a <= 0 || s.y > H + 20) { stars.splice(i, 1); continue; }
+
+      ctx.save();
+      ctx.globalAlpha = s.a;
+      const grd = ctx.createLinearGradient(
+        s.x - Math.cos(s.ang) * s.len, s.y - Math.sin(s.ang) * s.len,
+        s.x, s.y
+      );
+      grd.addColorStop(0, 'rgba(196,154,108,0)');
+      grd.addColorStop(1, 'rgba(245,236,215,' + s.a + ')');
+      ctx.strokeStyle = grd;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(s.x - Math.cos(s.ang) * s.len, s.y - Math.sin(s.ang) * s.len);
+      ctx.lineTo(s.x, s.y);
+      ctx.stroke();
+      ctx.restore();
+    }
+  }
+
+  /* === 6. FLOATING CODE KEYWORDS === */
+  const KEYWORDS = ['{ }', '</>', 'fn()', 'async', '/* */', 'git', 'npm', 'API', '=>', '[]'];
+
+  function initKeywords() {
+    document.querySelectorAll('.hero-kw').forEach(el => el.remove());
+    KEYWORDS.forEach(function(kw, i) {
+      const el = document.createElement('span');
+      el.className = 'hero-kw';
+      el.textContent = kw;
+      el.style.left   = (8 + Math.random() * 84) + '%';
+      el.style.top    = (10 + Math.random() * 70) + '%';
+      el.style.opacity = (0.07 + Math.random() * 0.1).toFixed(2);
+      el.style.animationDelay    = (i * 1.2) + 's';
+      el.style.animationDuration = (10 + Math.random() * 8) + 's';
+      heroSection.appendChild(el);
+    });
+  }
+
+  /* === MAIN LOOP === */
+  function loop() {
+    ctx.clearRect(0, 0, W, H);
+    t++;
+    drawGrid();
+    drawCursorGlow();
+    drawRings();
+    drawStars();
+    drawConnections();
+    particles.forEach(function(p) { p.update(); p.draw(); });
+    requestAnimationFrame(loop);
+  }
+
+  /* === MOUSE === */
+  heroSection.addEventListener('mousemove', function(e) {
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+  }, { passive: true });
+
+  heroSection.addEventListener('mouseleave', function() {
+    mouse.x = -9999; mouse.y = -9999;
+  }, { passive: true });
+
+  /* === INIT === */
+  function init() {
+    resize();
+    initParticles();
+    initKeywords();
+    spawnRing();
+    lastRing = performance.now();
+    loop();
+  }
+
+  window.addEventListener('resize', function() {
+    resize();
+    initParticles();
+  }, { passive: true });
+
+  /* Start after loader or after 4s fallback */
+  var started = false;
+  function tryStart() {
+    if (started) return;
+    started = true;
+    init();
+  }
+
+  var loaderEl = document.getElementById('loader');
+  if (loaderEl) {
+    var obs = new MutationObserver(function() {
+      var st = loaderEl.style.opacity;
+      if (st === '0' || parseFloat(st) < 0.1 || loaderEl.style.display === 'none') {
+        obs.disconnect();
+        tryStart();
+      }
+    });
+    obs.observe(loaderEl, { attributes: true, attributeFilter: ['style', 'class'] });
+    setTimeout(tryStart, 4200);
+  } else {
+    tryStart();
+  }
+})();

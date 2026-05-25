@@ -2932,3 +2932,97 @@ section { position: relative; overflow: hidden; }
 [data-theme="light"] .bg-grid {
   background-image: radial-gradient(circle, rgba(92,51,23,0.04) 1px, transparent 1px);
 }
+
+/* ============================================================
+   EPIC HERO CANVAS BACKGROUND
+   ============================================================ */
+
+/* Hero canvas — sits behind all hero content */
+.hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Enhanced hero aurora — bigger, more vivid for hero only */
+.hero-section .bg-aurora-hero {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Scanning radar line */
+.hero-radar {
+  position: absolute;
+  top: 0; left: 50%;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent 0%, rgba(196,154,108,0.06) 40%, rgba(196,154,108,0.18) 50%, rgba(196,154,108,0.06) 60%, transparent 100%);
+  animation: radar-sweep 8s ease-in-out infinite;
+  transform-origin: center center;
+  pointer-events: none;
+  z-index: 0;
+}
+@keyframes radar-sweep {
+  0%,100% { left: 10%; opacity: 0.4; }
+  50%      { left: 90%; opacity: 0.7; }
+}
+
+/* Floating code keywords */
+.hero-kw {
+  position: absolute;
+  font-family: 'Courier New', monospace;
+  color: rgba(196,154,108,0.09);
+  letter-spacing: 2px;
+  pointer-events: none;
+  z-index: 0;
+  user-select: none;
+  animation: kw-float 12s ease-in-out infinite;
+}
+@keyframes kw-float {
+  0%,100% { transform: translateY(0) rotate(0deg);   opacity: 0.09; }
+  33%      { transform: translateY(-22px) rotate(3deg); opacity: 0.18; }
+  66%      { transform: translateY(14px) rotate(-2deg); opacity: 0.07; }
+}
+
+/* Corner scan lines */
+.hero-scan {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
+.hero-scan-h {
+  left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(196,154,108,0.12) 50%, transparent 100%);
+  animation: scan-h 6s ease-in-out infinite;
+}
+.hero-scan-v {
+  top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(180deg, transparent 0%, rgba(196,154,108,0.12) 50%, transparent 100%);
+  animation: scan-v 9s ease-in-out infinite;
+}
+@keyframes scan-h {
+  0%   { top: 15%;  opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { top: 85%;  opacity: 0; }
+}
+@keyframes scan-v {
+  0%   { left: 10%;  opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { left: 90%;  opacity: 0; }
+}
+
+/* Ensure hero content is above canvas */
+.hero-section .hero,
+.hero-section .hero-scroll-hint,
+.hero-section .hero-marquee,
+.hero-section .hero-particles { position: relative; z-index: 1; }
