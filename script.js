@@ -1000,3 +1000,127 @@
     sec.appendChild(orb);
   });
 })();
+
+/* ===== BUTTON RIPPLE EFFECT ===== */
+(function initRipple() {
+  document.querySelectorAll('.btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      const r = this.getBoundingClientRect();
+      const size = Math.max(r.width, r.height) * 2;
+      const el = document.createElement('span');
+      el.className = 'ripple';
+      el.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX-r.left-size/2}px;top:${e.clientY-r.top-size/2}px`;
+      this.appendChild(el);
+      setTimeout(() => el.remove(), 600);
+    });
+  });
+})();
+
+/* ===== BUTTON CLICK SOUND ===== */
+(function initClickSound() {
+  const AudioCtx = window.AudioContext || window.webkitAudioContext;
+  if (!AudioCtx) return;
+  let ctx = null;
+
+  function playClick(type) {
+    try {
+      if (!ctx) ctx = new AudioCtx();
+      if (ctx.state === 'suspended') { ctx.resume(); return; }
+      const now = ctx.currentTime;
+      const master = ctx.createGain();
+      master.gain.value = 0.12;
+      master.connect(ctx.destination);
+
+      if (type === 'nav') {
+        /* Soft tick for nav links */
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.type = 'sine'; o.frequency.value = 880;
+        g.gain.setValueAtTime(0.08, now);
+        g.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+        o.connect(g); g.connect(master);
+        o.start(now); o.stop(now + 0.07);
+      } else {
+        /* Satisfying click for buttons */
+        const o1 = ctx.createOscillator();
+        const g1 = ctx.createGain();
+        o1.type = 'sine'; o1.frequency.value = 440;
+        g1.gain.setValueAtTime(0.1, now);
+        g1.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+        o1.connect(g1); g1.connect(master);
+        o1.start(now); o1.stop(now + 0.09);
+
+        const o2 = ctx.createOscillator();
+        const g2 = ctx.createGain();
+        o2.type = 'triangle'; o2.frequency.value = 880;
+        g2.gain.setValueAtTime(0.06, now + 0.05);
+        g2.gain.exponentialRampToValueAtTime(0.001, now + 0.13);
+        o2.connect(g2); g2.connect(master);
+        o2.start(now + 0.05); o2.stop(now + 0.14);
+      }
+    } catch(e) {}
+  }
+
+  document.querySelectorAll('.btn').forEach(btn => {
+    btn.addEventListener('click', () => playClick('btn'));
+  });
+  document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', () => playClick('nav'));
+  });
+})();
+
+/* ===== ENHANCED BACK-TO-TOP ===== */
+(function enhanceBackToTop() {
+  const btn = document.getElementById('back-to-top');
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+})();
+
+/* ===== SECTION AMBIENT SOUND on scroll ===== */
+(function initSectionSound() {
+  const AudioCtx = window.AudioContext || window.webkitAudioContext;
+  if (!AudioCtx) return;
+  let ctx = null;
+  let lastSection = '';
+
+  const sectionTones = {
+    home:       [261.6, 0.06],
+    about:      [293.7, 0.05],
+    skills:     [329.6, 0.05],
+    projects:   [349.2, 0.05],
+    experience: [392.0, 0.05],
+    contact:    [440.0, 0.05],
+    resume:     [493.9, 0.05],
+  };
+
+  function playTone(freq, vol) {
+    try {
+      if (!ctx) ctx = new AudioCtx();
+      if (ctx.state === 'suspended') return;
+      const now = ctx.currentTime;
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = 'sine'; o.frequency.value = freq;
+      g.gain.setValueAtTime(0, now);
+      g.gain.linearRampToValueAtTime(vol, now + 0.1);
+      g.gain.linearRampToValueAtTime(0, now + 0.6);
+      o.connect(g); g.connect(ctx.destination);
+      o.start(now); o.stop(now + 0.7);
+    } catch(e) {}
+  }
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const id = entry.target.id;
+      if (id && id !== lastSection && sectionTones[id]) {
+        lastSection = id;
+        playTone(sectionTones[id][0], sectionTones[id][1]);
+      }
+    });
+  }, { threshold: 0.4 });
+
+  document.querySelectorAll('section[id]').forEach(sec => obs.observe(sec));
+})();
