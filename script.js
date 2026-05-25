@@ -1124,3 +1124,79 @@
 
   document.querySelectorAll('section[id]').forEach(sec => obs.observe(sec));
 })();
+
+/* ===== GLOBAL BACKGROUND CANVAS (connected particles) ===== */
+(function initBgCanvas() {
+  const canvas = document.getElementById('bg-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  let W, H, particles;
+  const COUNT  = 55;
+  const MAXD   = 160; // connection max distance
+  const C_ACC  = 'rgba(196,154,108,';
+
+  class Dot {
+    constructor() { this.reset(true); }
+    reset(init) {
+      this.x  = Math.random() * W;
+      this.y  = init ? Math.random() * H : -10;
+      this.vx = (Math.random() - 0.5) * 0.35;
+      this.vy = Math.random() * 0.25 + 0.1;
+      this.r  = Math.random() * 1.5 + 0.5;
+      this.a  = Math.random() * 0.5 + 0.1;
+    }
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      if (this.y > H + 10) this.reset(false);
+      if (this.x < -10 || this.x > W + 10) this.vx *= -1;
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+      ctx.fillStyle = C_ACC + this.a + ')';
+      ctx.fill();
+    }
+  }
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function init() {
+    resize();
+    particles = Array.from({ length: COUNT }, () => new Dot());
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    /* Draw connections */
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < MAXD) {
+          const alpha = (1 - dist / MAXD) * 0.12;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = C_ACC + alpha + ')';
+          ctx.lineWidth = 0.6;
+          ctx.stroke();
+        }
+      }
+    }
+
+    /* Draw dots */
+    particles.forEach(p => { p.update(); p.draw(); });
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', resize, { passive: true });
+  init();
+  draw();
+})();

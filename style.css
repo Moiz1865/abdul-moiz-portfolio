@@ -2717,3 +2717,218 @@ html[data-theme] .input-wrap textarea {
 [data-theme="light"] .project-card { background: linear-gradient(160deg, #FDF6EC, #EDD9BB); }
 [data-theme="light"] .hero-stats { background: rgba(240,224,200,0.5); }
 [data-theme="light"] .contact-form-wrap { background: linear-gradient(145deg, rgba(240,224,200,0.8), rgba(232,207,168,0.6)); }
+
+/* ============================================================
+   EPIC AURORA BACKGROUND SYSTEM
+   ============================================================ */
+
+/* Fixed behind everything */
+.bg-aurora {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  overflow: hidden;
+  background: #0D0805;
+}
+
+/* Animated dot grid */
+.bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, rgba(196,154,108,0.06) 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: grid-drift 60s linear infinite;
+}
+@keyframes grid-drift {
+  0%   { background-position: 0 0; }
+  100% { background-position: 40px 40px; }
+}
+
+/* Canvas for floating connected particles */
+.bg-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.55;
+}
+
+/* Aurora blobs */
+.aurora-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  animation: aurora-drift linear infinite;
+  will-change: transform;
+}
+.a1 {
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(92,51,23,0.55) 0%, transparent 70%);
+  top: -15%; left: -10%;
+  opacity: 0.7;
+  animation-duration: 28s;
+  animation-name: aurora-1;
+}
+.a2 {
+  width: 550px; height: 550px;
+  background: radial-gradient(circle, rgba(139,94,60,0.45) 0%, transparent 70%);
+  top: 30%; right: -8%;
+  opacity: 0.6;
+  animation-duration: 35s;
+  animation-name: aurora-2;
+}
+.a3 {
+  width: 450px; height: 450px;
+  background: radial-gradient(circle, rgba(196,154,108,0.3) 0%, transparent 70%);
+  bottom: 15%; left: 15%;
+  opacity: 0.5;
+  animation-duration: 22s;
+  animation-name: aurora-3;
+}
+.a4 {
+  width: 800px; height: 800px;
+  background: radial-gradient(circle, rgba(60,25,8,0.7) 0%, transparent 60%);
+  bottom: -20%; right: -15%;
+  opacity: 0.8;
+  animation-duration: 40s;
+  animation-name: aurora-4;
+}
+.a5 {
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(196,154,108,0.2) 0%, transparent 70%);
+  top: 55%; left: 50%;
+  opacity: 0.35;
+  animation-duration: 18s;
+  animation-name: aurora-3;
+  animation-delay: -9s;
+}
+
+@keyframes aurora-1 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  25%      { transform: translate(80px,-50px) scale(1.12); }
+  50%      { transform: translate(-40px,90px) scale(0.92); }
+  75%      { transform: translate(60px,50px) scale(1.05); }
+}
+@keyframes aurora-2 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  30%      { transform: translate(-90px,60px) scale(1.08); }
+  60%      { transform: translate(50px,-80px) scale(0.95); }
+}
+@keyframes aurora-3 {
+  0%,100% { transform: translate(0,0) scale(1) rotate(0deg); }
+  33%      { transform: translate(60px,-40px) scale(1.1) rotate(60deg); }
+  66%      { transform: translate(-50px,70px) scale(0.9) rotate(120deg); }
+}
+@keyframes aurora-4 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  40%      { transform: translate(-80px,-60px) scale(1.06); }
+  70%      { transform: translate(70px,50px) scale(0.94); }
+}
+
+/* ===== FIX STATS PANEL — compact, no glass block ===== */
+.hero-stats {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  backdrop-filter: none !important;
+  border-radius: 0 !important;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+.stat {
+  position: relative;
+  text-align: left;
+}
+.stat::after {
+  content: '';
+  position: absolute;
+  right: -14px;
+  top: 10%;
+  height: 80%;
+  width: 1px;
+  background: rgba(196,154,108,0.2);
+}
+.stat:last-child::after { display: none; }
+
+/* ===== SCROLL DOWN — ensure it's always visible ===== */
+.hero-scroll-hint {
+  bottom: 54px !important;
+  z-index: 3 !important;
+}
+
+/* ===== SECTION ANIMATED GRADIENTS ===== */
+.about    { background: transparent; }
+.skills   { background: transparent; }
+.projects { background: transparent; }
+.experience { background: transparent; }
+.contact  { background: transparent; }
+
+/* Colored gradient bleed per section */
+.hero-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 70% 40%, rgba(92,51,23,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 60% at 20% 70%, rgba(196,154,108,0.06) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+#about::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 50% 70% at 80% 50%, rgba(92,51,23,0.12) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+#skills::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 20% 60%, rgba(92,51,23,0.1) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+#projects::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 50% 60% at 75% 30%, rgba(139,94,60,0.1) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+#experience::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 40% 60% at 30% 50%, rgba(92,51,23,0.1) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+#contact::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 60% 60%, rgba(196,154,108,0.08) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+section { position: relative; overflow: hidden; }
+
+/* Ensure content is above bg */
+.hero .hero-content,
+.hero .hero-image,
+.container,
+.section-header { position: relative; z-index: 1; }
+
+/* Light theme aurora */
+[data-theme="light"] .bg-aurora  { background: #FDF6EC; }
+[data-theme="light"] .aurora-blob { opacity: 0.3; }
+[data-theme="light"] .bg-grid {
+  background-image: radial-gradient(circle, rgba(92,51,23,0.04) 1px, transparent 1px);
+}
