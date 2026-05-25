@@ -846,6 +846,7 @@ input, textarea { font-family: inherit; }
   font-size: 0.75rem;
   letter-spacing: 2px;
   text-transform: uppercase;
+  z-index: 2;
   animation: bounce-scroll 2s ease-in-out infinite;
 }
 
@@ -877,12 +878,6 @@ input, textarea { font-family: inherit; }
   50% { transform: translateX(-50%) translateY(6px); }
 }
 
-/* scroll hint sits at the bottom of the full-viewport section */
-.hero-scroll-hint {
-  position: relative;
-  z-index: 1;
-  padding-bottom: 28px;
-}
 
 /* ===== ABOUT ===== */
 .about-grid {
