@@ -21,12 +21,38 @@
 </head>
 <body>
 
-  <!-- ===== LOADING SCREEN ===== -->
+  <!-- ===== EPIC 3D LOADING SCREEN ===== -->
   <div id="loader" class="loader">
-    <div class="loader-content">
-      <div class="loader-logo">AM</div>
-      <div class="loader-bar"><div class="loader-fill"></div></div>
-      <p class="loader-text">Loading Portfolio...</p>
+    <canvas id="matrix-canvas" class="matrix-canvas"></canvas>
+    <div class="corner tl"></div>
+    <div class="corner tr"></div>
+    <div class="corner bl"></div>
+    <div class="corner br"></div>
+    <div class="loader-center">
+      <div class="loader-3d-wrap">
+        <div class="orbit-ring ring-1"><span class="orbit-dot"></span></div>
+        <div class="orbit-ring ring-2"><span class="orbit-dot"></span></div>
+        <div class="orbit-ring ring-3"><span class="orbit-dot"></span></div>
+        <div class="cube-wrap">
+          <div class="cube">
+            <div class="face front">AM</div>
+            <div class="face back">&lt;/&gt;</div>
+            <div class="face left">{}</div>
+            <div class="face right">DEV</div>
+            <div class="face top">JS</div>
+            <div class="face bottom">CSS</div>
+          </div>
+        </div>
+      </div>
+      <h1 class="loader-name" data-text="Abdul Moiz">Abdul Moiz</h1>
+      <p class="loader-role" id="loader-role"></p>
+      <div class="loader-progress-wrap">
+        <div class="loader-track"><div class="loader-fill-bar" id="loader-fill-bar"></div></div>
+        <div class="loader-progress-info">
+          <span class="loader-status" id="loader-status">Initializing...</span>
+          <span class="loader-pct" id="loader-pct">0%</span>
+        </div>
+      </div>
     </div>
   </div>
 

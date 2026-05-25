@@ -83,19 +83,100 @@
   });
 })();
 
-/* ===== LOADER ===== */
+/* ===== EPIC 3D LOADER ===== */
 (function initLoader() {
   const loader = document.getElementById('loader');
   if (!loader) return;
-
   document.body.classList.add('loading');
 
-  window.addEventListener('load', () => {
+  /* — Matrix rain — */
+  const canvas = document.getElementById('matrix-canvas');
+  const ctx    = canvas ? canvas.getContext('2d') : null;
+  const chars  = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ<>{}[]|/\\';
+  let W, H, cols, drops, matrixRAF;
+
+  function resizeMatrix() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+    cols  = Math.floor(W / 18);
+    drops = Array(cols).fill(1);
+  }
+  if (ctx) {
+    resizeMatrix();
+    window.addEventListener('resize', resizeMatrix);
+    function drawMatrix() {
+      ctx.fillStyle = 'rgba(13,8,5,0.05)';
+      ctx.fillRect(0, 0, W, H);
+      ctx.font = '14px monospace';
+      drops.forEach((y, i) => {
+        const c = chars[Math.floor(Math.random() * chars.length)];
+        ctx.fillStyle = Math.random() > 0.94 ? '#C49A6C' : 'rgba(92,51,23,0.65)';
+        ctx.fillText(c, i * 18, y * 18);
+        if (y * 18 > H && Math.random() > 0.975) drops[i] = 0;
+        else drops[i]++;
+      });
+      matrixRAF = requestAnimationFrame(drawMatrix);
+    }
+    drawMatrix();
+  }
+
+  /* — Role typewriter — */
+  const roles  = ['Full Stack Developer', 'UI/UX Enthusiast', 'Problem Solver', 'Code Architect'];
+  const roleEl = document.getElementById('loader-role');
+  let roleIdx = 0, charIdx = 0, deleting = false;
+  function typeRole() {
+    if (!roleEl) return;
+    const cur = roles[roleIdx];
+    deleting ? roleEl.textContent = cur.slice(0, --charIdx) : (roleEl.textContent = cur.slice(0, ++charIdx));
+    if (!deleting && charIdx === cur.length) { deleting = true; setTimeout(typeRole, 1100); return; }
+    if (deleting && charIdx === 0)           { deleting = false; roleIdx = (roleIdx + 1) % roles.length; }
+    setTimeout(typeRole, deleting ? 38 : 65);
+  }
+  typeRole();
+
+  /* — Animated progress — */
+  const fillEl   = document.getElementById('loader-fill-bar');
+  const statusEl = document.getElementById('loader-status');
+  const pctEl    = document.getElementById('loader-pct');
+  const steps = [
+    { pct: 15, msg: 'Loading Styles...' },
+    { pct: 30, msg: 'Initializing Scripts...' },
+    { pct: 48, msg: 'Loading Projects...' },
+    { pct: 63, msg: 'Wiring Animations...' },
+    { pct: 78, msg: 'Loading Skills...' },
+    { pct: 92, msg: 'Almost Ready...' },
+    { pct: 100, msg: 'Welcome!' },
+  ];
+  let pct = 0, stepIdx = 0;
+  const progressTimer = setInterval(() => {
+    const target = stepIdx < steps.length ? steps[stepIdx].pct : 100;
+    if (pct < target) { pct = Math.min(pct + Math.random() * 1.8 + 0.4, target); }
+    if (pct >= target && stepIdx < steps.length) {
+      if (statusEl) statusEl.textContent = steps[stepIdx].msg;
+      stepIdx++;
+    }
+    if (fillEl) fillEl.style.width = Math.min(pct, 100) + '%';
+    if (pctEl)  pctEl.textContent  = Math.floor(Math.min(pct, 100)) + '%';
+    if (pct >= 100) clearInterval(progressTimer);
+  }, 28);
+
+  /* — Hide loader — */
+  function hideLoader() {
+    if (matrixRAF) cancelAnimationFrame(matrixRAF);
+    clearInterval(progressTimer);
+    if (fillEl)   fillEl.style.width = '100%';
+    if (pctEl)    pctEl.textContent  = '100%';
+    if (statusEl) statusEl.textContent = 'Welcome!';
     setTimeout(() => {
       loader.classList.add('fade-out');
       document.body.classList.remove('loading');
       loader.addEventListener('transitionend', () => loader.remove(), { once: true });
-    }, 1800);
+    }, 350);
+  }
+
+  window.addEventListener('load', () => {
+    const check = setInterval(() => { if (pct >= 100) { clearInterval(check); hideLoader(); } }, 80);
+    setTimeout(hideLoader, 5000);
   });
 })();
 
