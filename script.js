@@ -678,3 +678,325 @@
     });
   });
 })();
+
+/* ============================================================
+   EPIC ANIMATION UPGRADE v2
+   ============================================================ */
+
+/* ===== GRAIN OVERLAY ===== */
+(function addGrain() {
+  const el = document.createElement('div');
+  el.className = 'grain-overlay';
+  el.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(el);
+})();
+
+/* ===== LOADER SOUND (Web Audio API synthesizer) ===== */
+(function initLoaderSound() {
+  const AudioCtx = window.AudioContext || window.webkitAudioContext;
+  if (!AudioCtx) return;
+
+  const soundBtn  = document.getElementById('loader-sound-btn');
+  const soundIcon = document.getElementById('sound-icon');
+  let ctx = null;
+  let played = false;
+
+  function makeSound() {
+    if (played) return;
+    played = true;
+    if (!ctx) ctx = new AudioCtx();
+
+    const now = ctx.currentTime;
+    const master = ctx.createGain();
+    master.gain.value = 0.18;
+    master.connect(ctx.destination);
+
+    /* Bass rumble */
+    const bass = ctx.createOscillator();
+    const bassG = ctx.createGain();
+    bass.type = 'sine'; bass.frequency.value = 48;
+    bassG.gain.setValueAtTime(0, now);
+    bassG.gain.linearRampToValueAtTime(0.35, now + 0.4);
+    bassG.gain.linearRampToValueAtTime(0, now + 2.8);
+    bass.connect(bassG); bassG.connect(master);
+    bass.start(now); bass.stop(now + 3);
+
+    /* Frequency sweep */
+    const sweep = ctx.createOscillator();
+    const sweepF = ctx.createBiquadFilter();
+    const sweepG = ctx.createGain();
+    sweep.type = 'sawtooth';
+    sweep.frequency.setValueAtTime(80, now + 0.15);
+    sweep.frequency.exponentialRampToValueAtTime(2400, now + 0.7);
+    sweepF.type = 'bandpass'; sweepF.frequency.value = 900; sweepF.Q.value = 3;
+    sweepG.gain.setValueAtTime(0.12, now + 0.15);
+    sweepG.gain.exponentialRampToValueAtTime(0.001, now + 0.8);
+    sweep.connect(sweepF); sweepF.connect(sweepG); sweepG.connect(master);
+    sweep.start(now + 0.15); sweep.stop(now + 0.85);
+
+    /* Rising beep sequence */
+    [330, 440, 550, 660, 880].forEach((freq, i) => {
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = 'square'; o.frequency.value = freq;
+      const t = now + 0.85 + i * 0.11;
+      g.gain.setValueAtTime(0.065, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + 0.1);
+      o.connect(g); g.connect(master);
+      o.start(t); o.stop(t + 0.13);
+    });
+
+    /* Matrix glitch clicks */
+    for (let i = 0; i < 10; i++) {
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = 'sine';
+      o.frequency.value = 120 + Math.random() * 700;
+      const t = now + 1.5 + i * 0.18 + Math.random() * 0.08;
+      g.gain.setValueAtTime(0.04, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + 0.05);
+      o.connect(g); g.connect(master);
+      o.start(t); o.stop(t + 0.07);
+    }
+
+    /* Ascending arpeggio (C major pentatonic) */
+    [261.6, 329.6, 392, 523.3, 659.3].forEach((freq, i) => {
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = 'triangle'; o.frequency.value = freq;
+      const t = now + 2.1 + i * 0.16;
+      g.gain.setValueAtTime(0.09, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + 0.35);
+      o.connect(g); g.connect(master);
+      o.start(t); o.stop(t + 0.4);
+    });
+
+    /* Soft outro chord */
+    [130.8, 164.8, 196].forEach((freq) => {
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = 'sine'; o.frequency.value = freq;
+      g.gain.setValueAtTime(0, now + 3.0);
+      g.gain.linearRampToValueAtTime(0.07, now + 3.4);
+      g.gain.linearRampToValueAtTime(0, now + 5.0);
+      o.connect(g); g.connect(master);
+      o.start(now + 3.0); o.stop(now + 5.2);
+    });
+
+    if (soundIcon) soundIcon.className = 'fas fa-volume-high';
+    if (soundBtn) soundBtn.classList.add('active');
+  }
+
+  function tryPlay() {
+    try {
+      if (!ctx) ctx = new AudioCtx();
+      ctx.state === 'suspended' ? ctx.resume().then(makeSound).catch(() => {}) : makeSound();
+    } catch (e) {}
+  }
+
+  /* Try auto-play (succeeds if user navigated via link click) */
+  setTimeout(tryPlay, 200);
+
+  if (soundBtn) {
+    soundBtn.addEventListener('click', (e) => { e.stopPropagation(); tryPlay(); });
+  }
+})();
+
+/* ===== 3D CARD TILT ===== */
+(function initTilt3D() {
+  if (window.matchMedia('(pointer:coarse)').matches) return;
+  document.querySelectorAll('.skill-card, .project-card').forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      card.style.transition = 'transform 0.08s ease, box-shadow 0.08s ease';
+    });
+    card.addEventListener('mousemove', (e) => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width  - 0.5;
+      const y = (e.clientY - r.top)  / r.height - 0.5;
+      card.style.transform =
+        `perspective(700px) rotateX(${-y * 14}deg) rotateY(${x * 14}deg) scale(1.04) translateZ(8px)`;
+      card.style.boxShadow = `${-x * 22}px ${-y * 22}px 40px rgba(196,154,108,0.18)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transition = 'transform 0.5s cubic-bezier(0.23,1,0.32,1), box-shadow 0.5s ease';
+      card.style.transform = '';
+      card.style.boxShadow = '';
+      setTimeout(() => { card.style.transition = ''; }, 500);
+    });
+  });
+})();
+
+/* ===== MAGNETIC BUTTONS ===== */
+(function initMagneticButtons() {
+  if (window.matchMedia('(pointer:coarse)').matches) return;
+  document.querySelectorAll('.btn').forEach(btn => {
+    btn.addEventListener('mousemove', (e) => {
+      const r = btn.getBoundingClientRect();
+      const dx = (e.clientX - r.left - r.width  / 2) * 0.36;
+      const dy = (e.clientY - r.top  - r.height / 2) * 0.36;
+      btn.style.transform = `translate(${dx}px, ${dy}px)`;
+    });
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = '';
+    });
+  });
+})();
+
+/* ===== TEXT SCRAMBLE on section tags ===== */
+(function initTextScramble() {
+  const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$&';
+  function scramble(el) {
+    const orig = el.textContent.trim().toUpperCase();
+    let iter = 0;
+    const iv = setInterval(() => {
+      el.textContent = orig.split('').map((c, i) => {
+        if (c === ' ') return ' ';
+        if (i < Math.floor(iter)) return orig[i];
+        return CHARS[Math.floor(Math.random() * CHARS.length)];
+      }).join('');
+      iter += 0.45;
+      if (iter >= orig.length) { el.textContent = orig; clearInterval(iv); }
+    }, 38);
+  }
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { scramble(e.target); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.6 });
+  document.querySelectorAll('.section-tag').forEach(el => obs.observe(el));
+})();
+
+/* ===== HERO MOUSE PARALLAX ===== */
+(function initHeroMouseParallax() {
+  if (window.matchMedia('(pointer:coarse)').matches) return;
+  const hero = document.querySelector('.hero-section');
+  if (!hero) return;
+  const imgWrap = hero.querySelector('.hero-image');
+  const content = hero.querySelector('.hero-content');
+  const bgGrad  = hero.querySelector('.hero-bg-gradient');
+  const rings   = hero.querySelectorAll('.hero-img-ring');
+
+  hero.addEventListener('mousemove', (e) => {
+    const r = hero.getBoundingClientRect();
+    const x = (e.clientX - r.left)  / r.width  - 0.5;
+    const y = (e.clientY - r.top)   / r.height - 0.5;
+    if (imgWrap) imgWrap.style.transform = `translate(${x * -16}px, ${y * -11}px)`;
+    if (content) content.style.transform = `translate(${x * 9}px, ${y * 6}px)`;
+    if (bgGrad)  bgGrad.style.transform  = `translate(${x * 28}px, ${y * 22}px)`;
+    rings.forEach((ring, i) => {
+      ring.style.transform = `translate(${x * (i + 1) * 7}px, ${y * (i + 1) * 7}px)`;
+    });
+  });
+  hero.addEventListener('mouseleave', () => {
+    [imgWrap, content, bgGrad].forEach(el => { if (el) el.style.transform = ''; });
+    rings.forEach(r => r.style.transform = '');
+  });
+})();
+
+/* ===== FLOATING GEO SHAPES per section ===== */
+(function initFloatingGeo() {
+  const types = ['triangle', 'square', 'circle', 'dot', 'circle', 'dot'];
+  document.querySelectorAll('.about, .skills, .projects, .experience, .contact').forEach(sec => {
+    for (let i = 0; i < 5; i++) {
+      const el = document.createElement('div');
+      el.className = `geo-float ${types[Math.floor(Math.random() * types.length)]}`;
+      el.setAttribute('aria-hidden', 'true');
+      el.style.cssText = [
+        `top:${10 + Math.random() * 80}%`,
+        `left:${5 + Math.random() * 90}%`,
+        `animation:geo-drift ${7 + Math.random() * 9}s ease-in-out infinite`,
+        `animation-delay:${(Math.random() * 5).toFixed(1)}s`,
+      ].join(';');
+      sec.appendChild(el);
+    }
+  });
+})();
+
+/* ===== CURSOR TRAIL ===== */
+(function initCursorTrail() {
+  if (window.matchMedia('(pointer:coarse)').matches) return;
+  let last = 0;
+  document.addEventListener('mousemove', (e) => {
+    const now = Date.now();
+    if (now - last < 45) return;
+    last = now;
+    const t = document.createElement('div');
+    t.className = 'cursor-trail';
+    t.style.left = e.clientX + 'px';
+    t.style.top  = e.clientY + 'px';
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 560);
+  });
+})();
+
+/* ===== ENHANCED SCROLL REVEAL ===== */
+(function initScrollReveal() {
+  /* Elements AOS already handles are tagged data-aos — skip those */
+  const map = [
+    ['.skill-card',          'scale',  80],
+    ['.project-card',        'up',    100],
+    ['.timeline-item',       'left',  120],
+    ['.contact-info-card',   'right',  80],
+    ['.fact-item',           'up',     60],
+    ['.resume-section',      'up',     80],
+  ];
+  map.forEach(([sel, dir, gap]) => {
+    document.querySelectorAll(sel).forEach((el, i) => {
+      if (el.hasAttribute('data-reveal') || el.hasAttribute('data-aos')) return;
+      el.setAttribute('data-reveal', dir);
+      el.style.transitionDelay = (i * gap) + 'ms';
+    });
+  });
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('revealed'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('[data-reveal]').forEach(el => obs.observe(el));
+})();
+
+/* ===== SPARKLE BURST on section title enter ===== */
+(function initSparkle() {
+  function burst(el) {
+    const r = el.getBoundingClientRect();
+    const cx = r.left + r.width  / 2 + window.scrollX;
+    const cy = r.top  + r.height / 2 + window.scrollY;
+    for (let i = 0; i < 10; i++) {
+      const s = document.createElement('div');
+      s.className = 'sparkle';
+      const angle = (i / 10) * Math.PI * 2;
+      const dist  = 35 + Math.random() * 55;
+      s.style.cssText = [
+        `left:${cx}px`, `top:${cy}px`,
+        `--tx:${(Math.cos(angle) * dist).toFixed(1)}px`,
+        `--ty:${(Math.sin(angle) * dist).toFixed(1)}px`,
+        `width:${3 + Math.random() * 4}px`, `height:${3 + Math.random() * 4}px`,
+        `animation-duration:${(0.5 + Math.random() * 0.4).toFixed(2)}s`,
+        `animation-delay:${(Math.random() * 0.15).toFixed(2)}s`,
+      ].join(';');
+      document.body.appendChild(s);
+      setTimeout(() => s.remove(), 950);
+    }
+  }
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { burst(e.target); obs.unobserve(e.target); } });
+  }, { threshold: 0.6 });
+  document.querySelectorAll('.section-title').forEach(el => obs.observe(el));
+})();
+
+/* ===== SECTION GLOW ORBS ===== */
+(function initSectionGlowOrbs() {
+  document.querySelectorAll('.about, .skills, .projects, .experience, .contact').forEach((sec, i) => {
+    const orb = document.createElement('div');
+    orb.className = 'section-glow-orb';
+    orb.setAttribute('aria-hidden', 'true');
+    const size = 300 + (i % 3) * 100;
+    orb.style.cssText = [
+      `width:${size}px`, `height:${size}px`,
+      `background:radial-gradient(circle, rgba(92,51,23,0.12) 0%, transparent 70%)`,
+      i % 2 === 0 ? 'top:10%; left:-80px' : 'bottom:10%; right:-80px',
+      `animation-delay:${i * 1.2}s`,
+    ].join(';');
+    sec.appendChild(orb);
+  });
+})();

@@ -2162,3 +2162,202 @@ html[data-theme] .input-wrap textarea {
   transition: background-color 0.4s ease, color 0.3s ease,
               border-color 0.3s ease, box-shadow 0.3s ease !important;
 }
+
+/* ============================================================
+   EPIC ANIMATION UPGRADE v2
+   ============================================================ */
+
+/* ===== LOADER SOUND BUTTON ===== */
+.loader-sound-btn {
+  position: absolute;
+  top: 28px;
+  right: 28px;
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(196,154,108,0.35);
+  background: rgba(13,8,5,0.7);
+  color: rgba(196,154,108,0.5);
+  font-size: 1.05rem;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  z-index: 10;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.3s ease;
+  animation: sound-pulse 2s ease-in-out infinite;
+}
+.loader-sound-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: scale(1.12);
+  animation: none;
+}
+.loader-sound-btn.active {
+  color: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 18px rgba(196,154,108,0.35);
+  animation: none;
+}
+@keyframes sound-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(196,154,108,0.3); }
+  50%       { box-shadow: 0 0 0 8px rgba(196,154,108,0); }
+}
+
+/* ===== HERO MARQUEE ===== */
+.hero-marquee {
+  position: absolute;
+  bottom: 58px;
+  left: 0; right: 0;
+  overflow: hidden;
+  padding: 9px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+.hero-marquee-inner {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  animation: marquee-slide 28s linear infinite;
+}
+.hero-marquee-inner span {
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 0 18px;
+  white-space: nowrap;
+}
+.hero-marquee-inner .marquee-dot {
+  color: var(--accent);
+  padding: 0 2px;
+  font-size: 0.45rem;
+  letter-spacing: 0;
+}
+@keyframes marquee-slide { to { transform: translateX(-50%); } }
+
+/* ===== 3D CARD TILT ===== */
+.skill-card,
+.project-card {
+  will-change: transform;
+  transform-style: preserve-3d;
+}
+
+/* ===== MAGNETIC BUTTONS - preserve existing btn transitions ===== */
+.btn { will-change: transform; }
+
+/* ===== FLOATING GEO SHAPES ===== */
+.geo-float {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.07;
+  z-index: 0;
+}
+.geo-float.triangle {
+  width: 0; height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-bottom: 34px solid var(--accent);
+}
+.geo-float.square {
+  width: 26px; height: 26px;
+  border: 2px solid var(--accent);
+}
+.geo-float.circle {
+  width: 42px; height: 42px;
+  border: 1.5px solid var(--accent);
+  border-radius: 50%;
+  background: transparent;
+  opacity: 0.09;
+}
+.geo-float.dot {
+  width: 5px; height: 5px;
+  background: var(--accent);
+  border-radius: 50%;
+  opacity: 0.28;
+}
+@keyframes geo-drift {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  33%       { transform: translateY(-22px) rotate(120deg); }
+  66%       { transform: translateY(10px) rotate(240deg); }
+}
+
+/* ===== SCROLL REVEAL ===== */
+[data-reveal] {
+  opacity: 0;
+  transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1),
+              transform 0.85s cubic-bezier(0.16,1,0.3,1);
+}
+[data-reveal="up"]     { transform: translateY(55px); }
+[data-reveal="left"]   { transform: translateX(-55px); }
+[data-reveal="right"]  { transform: translateX(55px); }
+[data-reveal="scale"]  { transform: scale(0.86); }
+[data-reveal="rotate"] { transform: perspective(700px) rotateX(18deg) translateY(32px); }
+[data-reveal].revealed { opacity: 1 !important; transform: none !important; }
+
+/* ===== SPARKLE PARTICLES ===== */
+.sparkle {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--accent);
+  pointer-events: none;
+  z-index: 9990;
+  animation: sparkle-fly 0.75s ease-out forwards;
+  transform: translate(-50%, -50%);
+}
+@keyframes sparkle-fly {
+  0%   { opacity: 0.9; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0;   transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(0); }
+}
+
+/* ===== CURSOR TRAIL ===== */
+.cursor-trail {
+  position: fixed;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  pointer-events: none;
+  z-index: 9997;
+  transform: translate(-50%, -50%);
+  animation: trail-fade 0.55s ease-out forwards;
+}
+@keyframes trail-fade {
+  0%   { opacity: 0.55; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0;    transform: translate(-50%, -50%) scale(0.1); }
+}
+
+/* ===== SECTION GLOW ORBS ===== */
+.section-glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  animation: orb-pulse 7s ease-in-out infinite;
+}
+@keyframes orb-pulse {
+  0%, 100% { transform: scale(1);    opacity: 0.5; }
+  50%       { transform: scale(1.18); opacity: 0.85; }
+}
+
+/* ===== SUBTLE GRAIN TEXTURE ===== */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9995;
+  opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain-shift 0.15s steps(1) infinite;
+}
+@keyframes grain-shift {
+  0%   { background-position: 0 0; }
+  25%  { background-position: -80px -40px; }
+  50%  { background-position: 40px -80px; }
+  75%  { background-position: -40px 80px; }
+  100% { background-position: 0 0; }
+}
+
+/* Light theme overrides */
+[data-theme="light"] .hero-marquee { border-color: rgba(92,51,23,0.1); }
+[data-theme="light"] .geo-float { opacity: 0.04; }
+[data-theme="light"] .grain-overlay { opacity: 0.015; }
